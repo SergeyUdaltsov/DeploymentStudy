@@ -29,7 +29,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                sh """
+                sh '''
                     aws sts get-caller-identity
                     echo "Building Docker image..."
                     docker build -t ${ECR_REPO}:${IMAGE_TAG} .
@@ -40,15 +40,15 @@ pipeline {
 
                     echo "Pushing Docker image to ECR..."
                     docker push ${ECR_REPO}:${IMAGE_TAG}
-                """
+                '''
             }
         }
     }
 
     post {
         always {
-            echo "Cleaning up local Docker image..."
-            sh "docker image rm ${ECR_REPO}:${IMAGE_TAG} || true"
+            echo 'Cleaning up local Docker image...'
+            sh 'docker image rm ${ECR_REPO}:${IMAGE_TAG} || true'
         }
     }
 }
