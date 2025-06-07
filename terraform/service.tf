@@ -11,6 +11,8 @@ resource "aws_ecs_service" "service" {
     subnets          = ["subnet-2fb03453", "subnet-29581143", "subnet-7047cc3c"]
     assign_public_ip = true
   }
+
+  depends_on = [aws_ecs_task_definition.task_definition]
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
