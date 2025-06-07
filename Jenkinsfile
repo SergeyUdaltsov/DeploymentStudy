@@ -16,10 +16,10 @@ pipeline {
          }
         stage('Build') {
             steps {
-                sh "
+                sh """
                     chmod +x gradlew
                     ./gradlew clean build
-                "
+                """
             }
         }
         stage('Deploy') {
