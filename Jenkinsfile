@@ -17,6 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
+                    docker ps
                     chmod +x gradlew
                     ./gradlew clean build
                 """
