@@ -14,7 +14,7 @@ resource "aws_ecs_service" "service" {
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "j3-study-task"
+  family                   = "j3-study"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 1024
@@ -22,43 +22,20 @@ resource "aws_ecs_task_definition" "task_definition" {
   execution_role_arn       = "arn:aws:iam::143936507261:role/j3-service-role"
   task_role_arn            = "arn:aws:iam::143936507261:role/j3-ecs-task-role"
 
-  container_definitions = <<TASK_DEFINITION
-  [
+  container_definitions = jsonencode([
     {
-      "name": "j3-study-container",
-      "essential": true,
-      "image": "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study:9",
-      "cpu": 1024,
-      "memory": 1024,
-      "portMappings": [
+      name      = "j3-study-container"
+      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study:${var.image_tag}"
+      essential = true
+      portMappings = [
         {
-          "containerPort": 8080
-        },
-        {
-          "containerPort": 8077
+          containerPort = 8080
+          hostPort      = 8080
+          protocol      = "tcp"
         }
-      ],
-      "healthCheck": {
-        "command": [
-          "CMD-SHELL",
-          "curl -f http://localhost:8077/health || exit 1"
-        ],
-        "interval": 30,
-        "timeout": 5,
-        "retries": 3,
-        "startPeriod": 90
-      },
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "j3-study-logs",
-          "awslogs-region": "eu-central-1",
-          "awslogs-stream-prefix": "j3-study"
-        }
-      }
+      ]
     }
-  ]
-  TASK_DEFINITION
+  ])
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
