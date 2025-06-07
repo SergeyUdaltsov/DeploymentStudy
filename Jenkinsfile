@@ -46,18 +46,16 @@ pipeline {
 
         stage('Terraform Deploy') {
             steps {
-                dir('terraform') {
-                    sh '''
-                        echo "Initializing Terraform"
-                        terraform init -input=false
+                sh '''
+                    echo "Initializing Terraform"
+                    terraform init -input=false
 
-                        echo "Planning with IMAGE_TAG=${IMAGE_TAG}"
-                        terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
+                    echo "Planning with IMAGE_TAG=${IMAGE_TAG}"
+                    terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
 
-                        echo "Applying Terraform"
-                        terraform apply -input=false -auto-approve tfplan
-                    '''
-                }
+                    echo "Applying Terraform"
+                    terraform apply -input=false -auto-approve tfplan
+                '''
             }
         }
     }
