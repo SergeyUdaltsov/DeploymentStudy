@@ -43,6 +43,23 @@ pipeline {
                 '''
             }
         }
+
+        stage('Terraform Deploy') {
+            steps {
+                dir('terraform') {
+                    sh '''
+                        echo "🌍 Initializing Terraform"
+                        terraform init -input=false
+
+                        echo "🔍 Planning Terraform changes"
+                        terraform plan -input=false -out=tfplan
+
+                        echo "🚀 Applying Terraform"
+                        terraform apply -input=false -auto-approve tfplan
+                    '''
+                }
+            }
+        }
     }
 
     post {
