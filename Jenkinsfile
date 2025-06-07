@@ -30,6 +30,7 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 sh """
+                    aws sts get-caller-identity
                     echo "Building Docker image..."
                     docker build -t ${ECR_REPO}:${IMAGE_TAG} .
 
