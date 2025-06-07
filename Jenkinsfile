@@ -2,40 +2,25 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'lambdaName', defaultValue: '', description: 'Lambda name')
-        choice(name: 'Account', choices: ['993058472258', '773974733061', '143936507261'])
-        booleanParam(name: 'allLambdas', defaultValue: true, description: 'All lambdas')
-        booleanParam(name: 'withLayer', defaultValue: false, description: 'Update layer')
+    environment {
+        AWS_REGION = 'eu-central-1'
+        ECR_REPO = '143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh './gradlew clean build'
             }
         }
         stage('Deploy') {
             steps {
-                withCredentials([[
-                                         $class           : 'AmazonWebServicesCredentialsBinding',
-                                         credentialsId    : params.Account,
-                                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    script {
-                        def lambdaName = "all"
-                        if (!params.allLambdas) {
-                            lambdaName = params.lambdaName
-                        }
-                        if (params.withLayer) {
-                            sh "chmod +x ./updateLambdasWithLayer.sh"
-                            sh './updateLambdasWithLayer.sh ' + lambdaName + ' ' + params.Account
-                        } else {
-                            sh "chmod +x ./updateOnlyLambdasCode.sh"
-                            sh './updateOnlyLambdasCode.sh ' + lambdaName + ' ' + params.Account
-                        }
-                    }
-                }
+              sh """
+                  docker build -t ${ECR_REPO}:${IMAGE_TAG} .
+                  aws --region ${AWS_REGION} ecr get-login-password | docker login --username AWS --password-stdin ${ECR_REPO}
+                  docker push ${ECR_REPO}:${IMAGE_TAG}
+              """
             }
         }
     }
