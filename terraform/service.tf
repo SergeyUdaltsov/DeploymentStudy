@@ -13,6 +13,10 @@ resource "aws_ecs_service" "service" {
   }
 
   wait_for_steady_state = true
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
 }
 
 resource "aws_ecs_task_definition" "task_definition" {

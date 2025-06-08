@@ -30,7 +30,6 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 sh '''
-                    aws sts get-caller-identity
                     echo "Building Docker image..."
                     docker build -t ${ECR_REPO}:${IMAGE_TAG} .
 
@@ -48,6 +47,9 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh '''
+                        export TF_LOG=DEBUG
+                        export TF_LOG_PATH=terraform.log
+
                         echo "Initializing Terraform"
                         terraform init -input=false -force-copy
 
@@ -56,7 +58,7 @@ pipeline {
 
                         echo "Applying Terraform"
                         terraform apply -input=false -auto-approve tfplan
-
+                        cat terraform.log
                     '''
                 }
             }
