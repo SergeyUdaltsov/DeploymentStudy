@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.8.5"
   backend "s3" {
     bucket         = "j3-terraform-state"
     key            = "ecs-service/terraform.tfstate"
