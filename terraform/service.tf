@@ -1,19 +1,19 @@
-resource "aws_ecs_service" "service" {
-  name          = "J3StudyEcsService"
-  cluster       = "j3-study-cluster"
-  desired_count = 1
-
-  task_definition = aws_ecs_task_definition.task_definition.arn
-  launch_type     = "FARGATE"
-
-  network_configuration {
-    security_groups  = ["sg-086cca7c"]
-    subnets          = ["subnet-2fb03453", "subnet-29581143", "subnet-7047cc3c"]
-    assign_public_ip = true
-  }
-
-  depends_on = [aws_ecs_task_definition.task_definition]
-}
+#resource "aws_ecs_service" "service" {
+#  name          = "J3StudyEcsService"
+#  cluster       = "j3-study-cluster"
+#  desired_count = 1
+#
+#  task_definition = aws_ecs_task_definition.task_definition.arn
+#  launch_type     = "FARGATE"
+#
+#  network_configuration {
+#    security_groups  = ["sg-086cca7c"]
+#    subnets          = ["subnet-2fb03453", "subnet-29581143", "subnet-7047cc3c"]
+#    assign_public_ip = true
+#  }
+#
+#  depends_on = [aws_ecs_task_definition.task_definition]
+#}
 
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = "j3-study"
