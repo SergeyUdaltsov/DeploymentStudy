@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   ])
 }
 
-resource "aws_cloudwatch_log_group" "log_group" {
-  name              = "j3-study-logs"
-  retention_in_days = 5
-}
+#resource "aws_cloudwatch_log_group" "log_group" {
+#  name              = "j3-study-logs"
+#  retention_in_days = 5
+#}
