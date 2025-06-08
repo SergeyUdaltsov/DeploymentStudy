@@ -34,6 +34,14 @@ resource "aws_ecs_task_definition" "task_definition" {
           protocol      = "tcp"
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.log_group.name
+          "awslogs-region"        = "eu-central-1"
+          "awslogs-stream-prefix" = "j3-study"
+        }
+      }
     }
   ])
 }
