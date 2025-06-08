@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "j3-study-container"
-      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study:${var.image_tag}"
+      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study:26"
       essential = true
       portMappings = [
         {
