@@ -1,6 +1,6 @@
 resource "aws_ecs_service" "service" {
   name          = "J3StudyEcsService"
-  cluster       = "j3-study-cluster"
+  cluster       = "j3-cluster"
   desired_count = 1
 
   task_definition = aws_ecs_task_definition.task_definition.arn
@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = "j3-study-container"
-      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-study:${var.image_tag}"
+      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-repository:${var.image_tag}"
       essential = true
       portMappings = [
         {
