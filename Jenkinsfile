@@ -57,17 +57,16 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh """
-                        export TF_LOG=DEBUG
-                        export TF_LOG_PATH=terraform.log
+
                         echo "Initializing Terraform"
                         terraform init -input=false -force-copy
 
-                        echo "Planning with IMAGE_TAG=${IMAGE_TAG}"
-                        terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
-
-                        echo "Applying Terraform"
-                        terraform ${params.ACTION} -input=false -auto-approve tfplan
-                        cat terraform.log
+                        if [ "${params.ACTION}" = "apply" ]; then
+                            terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
+                            terraform apply -input=false -auto-approve tfplan
+                        else
+                            terraform destroy -input=false -auto-approve
+                        fi
                     """
                 }
             }
