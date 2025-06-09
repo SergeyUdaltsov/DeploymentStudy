@@ -1,5 +1,3 @@
-resource "aws_ecs_cluster" "this" {
+resource "aws_ecs_cluster" "j3-cluster" {
   name = "j3-cluster"
-
-  capacity_providers = ["FARGATE"]
 }
