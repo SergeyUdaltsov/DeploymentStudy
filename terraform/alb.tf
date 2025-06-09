@@ -15,6 +15,7 @@ resource "aws_lb_target_group" "j3_tg" {
   port     = 8080
   protocol = "HTTP"
   vpc_id   = "vpc-9cf492f6"
+  target_type = "ip"
 
   health_check {
     path                = "/health"
