@@ -1,0 +1,36 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+
+        stage('Terraform Deploy') {
+            steps {
+                dir('terraform/infra') {
+                    sh """
+                        echo "Initializing Terraform"
+                        terraform init -input=false -force-copy
+
+                        if [ "${params.ACTION}" = "apply" ]; then
+                            terraform plan -input=false -out=tfplan
+                            terraform apply -input=false -auto-approve tfplan
+                        else
+                            terraform destroy -input=false -auto-approve
+                        fi
+                    """
+                }
+            }
+        }
+    }
+}

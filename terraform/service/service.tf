@@ -12,14 +12,6 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.j3_tg.arn
-    container_name   = "j3-study-container"
-    container_port   = 8080
-  }
-
-  depends_on = [aws_lb_listener.j3_listener]
-
   wait_for_steady_state = true
   timeouts {
     create = "5m"
