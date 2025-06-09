@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action')
+    }
+
     environment {
         AWS_REGION = 'eu-central-1'
         ECR_REPO = '143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-repository'
@@ -47,9 +51,6 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh '''
-                        export TF_LOG=DEBUG
-                        export TF_LOG_PATH=terraform.log
-
                         echo "Initializing Terraform"
                         terraform init -input=false -force-copy
 
@@ -57,8 +58,7 @@ pipeline {
                         terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
 
                         echo "Applying Terraform"
-                        terraform apply -input=false -auto-approve tfplan
-                        cat terraform.log
+                        terraform ${params.ACTION} -input=false -auto-approve tfplan
                     '''
                 }
             }
