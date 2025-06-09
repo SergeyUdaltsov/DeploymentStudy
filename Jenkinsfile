@@ -56,7 +56,7 @@ pipeline {
         stage('Terraform Deploy') {
             steps {
                 dir('terraform') {
-                    sh '''
+                    sh """
                         export TF_LOG=DEBUG
                         export TF_LOG_PATH=terraform.log
                         echo "Initializing Terraform"
@@ -68,7 +68,7 @@ pipeline {
                         echo "Applying Terraform"
                         terraform ${params.ACTION} -input=false -auto-approve tfplan
                         cat terraform.log
-                    '''
+                    """
                 }
             }
         }
