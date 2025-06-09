@@ -20,6 +20,9 @@ pipeline {
         }
 
         stage('Build') {
+            when {
+                expression { params.ACTION == 'apply'}
+            }
             steps {
                 sh '''
                     echo "Making gradlew executable..."
@@ -32,6 +35,9 @@ pipeline {
         }
 
         stage('Docker Build & Push') {
+            when {
+                expression { params.ACTION == 'apply'}
+            }
             steps {
                 sh '''
                     echo "Building Docker image..."
@@ -51,6 +57,8 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh '''
+                        TF_LOG = 'DEBUG'
+                        TF_LOG_PATH = 'terraform.log'
                         echo "Initializing Terraform"
                         terraform init -input=false -force-copy
 
@@ -59,6 +67,7 @@ pipeline {
 
                         echo "Applying Terraform"
                         terraform ${params.ACTION} -input=false -auto-approve tfplan
+                        cat terraform.log
                     '''
                 }
             }
