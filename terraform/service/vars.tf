@@ -9,5 +9,6 @@ data "terraform_remote_state" "infra-data" {
 
 variable "image_tag" {
   type = string
+  default = ""
   description = "Number of build"
 }
