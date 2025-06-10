@@ -1,5 +1,4 @@
 resource "aws_iam_role" "service_role" {
-
   name               = "j3-service-role"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
@@ -16,7 +15,7 @@ resource "aws_iam_role" "service_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "managed_attachment" {
+resource "aws_iam_role_policy_attachment" "managed_attachment_service" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
   role       = aws_iam_role.service_role.name
 }
@@ -63,4 +62,26 @@ resource "aws_iam_role_policy" "inline_service_policy" {
       }
     ]
   })
+}
+
+resource "aws_iam_role" "task_role" {
+  name               = "j3-task-role"
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Sid       = ""
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "managed_attachment_task" {
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+  role       = aws_iam_role.task_role.name
 }
