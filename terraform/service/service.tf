@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.log_group.name
+          "awslogs-group"         = "j3-logs"
           "awslogs-region"        = "eu-central-1"
           "awslogs-stream-prefix" = "j3-study"
         }
@@ -52,7 +52,4 @@ resource "aws_ecs_task_definition" "task_definition" {
   ])
 }
 
-resource "aws_cloudwatch_log_group" "log_group" {
-  name              = "j3-study-logs"
-  retention_in_days = 5
-}
+

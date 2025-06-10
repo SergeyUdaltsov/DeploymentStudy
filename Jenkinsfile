@@ -55,7 +55,7 @@ pipeline {
 
         stage('Terraform Deploy') {
             steps {
-                dir('terraform') {
+                dir('terraform/service') {
                     sh """
 
                         echo "Initializing Terraform"
