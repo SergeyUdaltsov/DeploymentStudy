@@ -58,7 +58,7 @@ resource "aws_iam_role_policy" "inline_service_policy" {
           "logs:PutLogEvents"
         ]
         Effect   = "Allow"
-        Resource = [aws_cloudwatch_log_group.log_group.arn]
+        Resource = ["*"]
       }
     ]
   })
