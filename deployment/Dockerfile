@@ -16,9 +16,10 @@ RUN curl -O https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraf
     mv terraform /usr/local/bin/ && \
     rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# Add docker group with correct GID
-ARG DOCKER_GID=998
-RUN groupadd -g ${DOCKER_GID} docker || true
-RUN usermod -aG docker jenkins
+# Fix docker group GID
+ARG DOCKER_GID=113
+
+# Delete existing docker group if it exists, then recreate with correct GID
+RUN if getent group docker; then groupdel docker; fi && groupadd -g ${DOCKER_GID} docker && usermod -aG docker jenkins
 
 USER jenkins
