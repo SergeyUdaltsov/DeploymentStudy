@@ -1,6 +1,6 @@
 resource "aws_ecs_service" "service" {
   name          = "J3StudyEcsService"
-  cluster       = "j3-cluster"
+  cluster       = data.terraform_remote_state.infra-data.outputs.cluster.name
   desired_count = 1
 
   task_definition = aws_ecs_task_definition.task_definition.arn
@@ -25,8 +25,10 @@ resource "aws_ecs_task_definition" "task_definition" {
   network_mode             = "awsvpc"
   cpu                      = 1024
   memory                   = 2048
-  execution_role_arn       = "arn:aws:iam::143936507261:role/j3-ecs-service-role"
-  task_role_arn            = "arn:aws:iam::143936507261:role/j3-ecs-task-role"
+  execution_role_arn       = data.terraform_remote_state.infra-data.outputs.service_role.arn
+#  execution_role_arn       = "arn:aws:iam::143936507261:role/j3-ecs-service-role"
+  task_role_arn            = data.terraform_remote_state.infra-data.outputs.task_role.arn
+#  task_role_arn            = "arn:aws:iam::143936507261:role/j3-ecs-task-role"
 
   container_definitions = jsonencode([
     {
@@ -43,7 +45,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "j3-logs"
+          "awslogs-group"         = data.terraform_remote_state.infra-data.outputs.log_group.name
           "awslogs-region"        = "eu-central-1"
           "awslogs-stream-prefix" = "j3-study"
         }
