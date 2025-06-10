@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "managed_attachment" {
   role       = aws_iam_role.service_role.name
 }
 
-resource "aws_iam_policy" "inline_service_policy" {
+resource "aws_iam_role_policy" "inline_service_policy" {
   name = "j3-specific-policy"
   role = aws_iam_role.service_role.name
 
