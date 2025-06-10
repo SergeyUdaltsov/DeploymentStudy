@@ -1,0 +1,34 @@
+#!/bin/bash
+# Install Docker
+apt-get update -y
+apt-get install -y docker.io git unzip curl
+
+# Start Docker
+systemctl start docker
+systemctl enable docker
+
+# Add docker user
+usermod -aG docker ubuntu
+
+cd /home/ubuntu
+
+# Clone our github repo containing Dockerfile
+git clone https://github.com/SergeyUdaltsov/DeploymentStudy.git
+cd DeploymentStudy/deployment
+
+# Get GID docker group
+DOCKER_GID=$(getent group docker | cut -d: -f3)
+
+# Build docker image
+docker build --build-arg DOCKER_GID=$DOCKER_GID -t jenkins-custom .
+
+# Start jenkins container
+docker run -d \
+  --restart unless-stopped \
+  --name jenkins \
+  -p 8080:8080 -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  jenkins-custom
+
+chown -R ubuntu:ubuntu /home/ubuntu
