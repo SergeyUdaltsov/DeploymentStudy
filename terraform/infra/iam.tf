@@ -14,9 +14,6 @@ resource "aws_iam_role" "service_role" {
       }
     ]
   })
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
-  ]
 }
 
 resource "aws_iam_role_policy_attachment" "managed_attachment" {
@@ -26,7 +23,7 @@ resource "aws_iam_role_policy_attachment" "managed_attachment" {
 
 resource "aws_iam_policy" "inline_service_policy" {
   name = "j3-specific-policy"
-  role = aws_iam_role.service_role.id
+  role = aws_iam_role.service_role.name
 
   policy = jsonencode({
     Version   = "2012-10-17"
