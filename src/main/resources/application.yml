@@ -19,7 +19,7 @@ aws:
   dynamoDb:
     table-name: "j3_payloads_metadata"
   sqs:
-    queue-url: "https://sqs.eu-central-1.amazonaws.com/123456789012/j3-queue"
+    queue-url: "https://sqs.eu-central-1.amazonaws.com/143936507261/j3-queue"
 
 logging:
   level:

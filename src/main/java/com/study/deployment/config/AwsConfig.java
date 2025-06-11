@@ -3,7 +3,9 @@ package com.study.deployment.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -36,7 +38,6 @@ public class AwsConfig {
     public SqsClient sqsClient() {
         return SqsClient.builder()
                 .credentialsProvider(DefaultCredentialsProvider.create())
-                .endpointOverride(URI.create("https://sqs.eu-central-1.amazonaws.com"))
                 .region(Region.of(awsProperties.getRegion()))
                 .build();
     }
