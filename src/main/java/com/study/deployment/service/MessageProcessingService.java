@@ -1,5 +1,8 @@
 package com.study.deployment.service;
 
+import com.study.deployment.service.aws.DynamoDbService;
+import com.study.deployment.service.aws.S3Service;
+import com.study.deployment.service.aws.SqsService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ public class MessageProcessingService {
 
     private final S3Service s3Service;
     private final DynamoDbService dynamoDbService;
+    private final SqsService sqsService;
 
     public void processMessage(String message) {
         LocalDateTime now = LocalDateTime.now();
@@ -28,5 +32,8 @@ public class MessageProcessingService {
         UUID metadataId = UUID.randomUUID();
         dynamoDbService.saveFileMetadata(metadataId.toString(), fileKey);
         LOGGER.info("Payload metadata successfully persisted to DynamoDb");
+
+        sqsService.sendMessage(metadataId.toString());
+        LOGGER.info("Payload metadata ID successfully pushed to SQS");
     }
 }

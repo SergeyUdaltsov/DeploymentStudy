@@ -7,6 +7,7 @@ import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,6 +26,13 @@ public class AwsConfig {
     @Bean
     public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
+                .region(Region.of(awsProperties.getRegion()))
+                .build();
+    }
+
+    @Bean
+    public SqsClient sqsClient() {
+        return SqsClient.builder()
                 .region(Region.of(awsProperties.getRegion()))
                 .build();
     }

@@ -130,3 +130,23 @@ resource "aws_iam_role_policy" "dynamoDb_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "sqs_policy" {
+  name = "j3-sqs-access-policy"
+  role = aws_iam_role.task_role.name
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "sqs:SendMessage"
+        ],
+        Resource = [
+          aws_sqs_queue.sqs_queue.arn
+        ]
+      }
+    ]
+  })
+}

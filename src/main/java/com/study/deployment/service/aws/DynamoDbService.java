@@ -1,4 +1,4 @@
-package com.study.deployment.service;
+package com.study.deployment.service.aws;
 
 import com.study.deployment.config.AwsProperties;
 import lombok.RequiredArgsConstructor;

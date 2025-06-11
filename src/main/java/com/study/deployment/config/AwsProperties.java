@@ -12,8 +12,12 @@ public class AwsProperties {
     private String region;
     private final S3Properties s3 = new S3Properties();
     private final DynamoDbProperties dynamoDb = new DynamoDbProperties();
+    private final SqsProperties sqs = new SqsProperties();
 
-
+    @Data
+    public static class SqsProperties {
+        private String queueUrl;
+    }
     @Data
     public static class DynamoDbProperties {
 
