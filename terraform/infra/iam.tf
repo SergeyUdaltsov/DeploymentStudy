@@ -109,3 +109,24 @@ resource "aws_iam_role_policy" "s3_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "dynamoDb_policy" {
+  name = "j3-dynamoDb-access-policy"
+  role = aws_iam_role.task_role.name
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem"
+        ],
+        Resource = [
+          aws_dynamodb_table.file_metadata.arn
+        ]
+      }
+    ]
+  })
+}

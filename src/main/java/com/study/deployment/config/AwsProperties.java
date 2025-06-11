@@ -11,8 +11,14 @@ public class AwsProperties {
 
     private String region;
     private final S3Properties s3 = new S3Properties();
+    private final DynamoDbProperties dynamoDb = new DynamoDbProperties();
 
 
+    @Data
+    public static class DynamoDbProperties {
+
+        private String tableName;
+    }
     @Data
     public static class S3Properties {
 

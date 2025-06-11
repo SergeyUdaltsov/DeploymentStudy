@@ -30,7 +30,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	implementation 'software.amazon.awssdk:s3:2.25.21'
+	implementation platform('software.amazon.awssdk:bom:2.20.39')
+
+	implementation 'software.amazon.awssdk:dynamodb'
+	implementation 'software.amazon.awssdk:s3'
 
 	compileOnly("$lombokLib")
 	annotationProcessor("$lombokLib")

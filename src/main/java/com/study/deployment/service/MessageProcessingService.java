@@ -1,0 +1,32 @@
+package com.study.deployment.service;
+
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class MessageProcessingService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageProcessingService.class);
+
+    private final S3Service s3Service;
+    private final DynamoDbService dynamoDbService;
+
+    public void processMessage(String message) {
+        LocalDateTime now = LocalDateTime.now();
+        String fileKey = String.format("%s/%s/%s/%s", now.getYear(), now.getMonth().getValue(), now.getDayOfMonth(), Timestamp.valueOf(now));
+
+        s3Service.savePayloadToBucket(message, fileKey);
+        LOGGER.info("Payload successfully stored to S3");
+
+        UUID metadataId = UUID.randomUUID();
+        dynamoDbService.saveFileMetadata(metadataId.toString(), fileKey);
+        LOGGER.info("Payload metadata successfully persisted to DynamoDb");
+    }
+}

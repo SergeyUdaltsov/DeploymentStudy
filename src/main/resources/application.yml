@@ -16,3 +16,5 @@ aws:
   region: "eu-central-1"
   s3:
     bucket-name: "j3-service-bucket"
+  dynamoDb:
+    table-name: "j3_payloads_metadata"
