@@ -16,6 +16,7 @@ public class AwsProperties {
 
     @Data
     public static class SqsProperties {
+
         private String queueUrl;
     }
     @Data

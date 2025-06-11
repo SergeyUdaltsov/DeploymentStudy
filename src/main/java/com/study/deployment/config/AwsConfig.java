@@ -33,6 +33,7 @@ public class AwsConfig {
     @Bean
     public SqsClient sqsClient() {
         return SqsClient.builder()
+                .credentialsProvider(DefaultCredentialsProvider.create())
                 .region(Region.of(awsProperties.getRegion()))
                 .build();
     }
