@@ -9,6 +9,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
+import java.net.URI;
+
 @Configuration
 @RequiredArgsConstructor
 public class AwsConfig {
@@ -34,6 +36,7 @@ public class AwsConfig {
     public SqsClient sqsClient() {
         return SqsClient.builder()
                 .credentialsProvider(DefaultCredentialsProvider.create())
+                .endpointOverride(URI.create("https://sqs.eu-central-1.amazonaws.com/123456789012/j3-queue"))
                 .region(Region.of(awsProperties.getRegion()))
                 .build();
     }
