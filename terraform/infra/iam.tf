@@ -85,3 +85,27 @@ resource "aws_iam_role_policy_attachment" "managed_attachment_task" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
   role       = aws_iam_role.task_role.name
 }
+
+resource "aws_iam_role_policy" "s3_policy" {
+  name = "j3-s3-access-policy"
+  role = aws_iam_role.task_role.name
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
+          "s3:ListBucket"
+        ],
+        Resource = [
+          aws_s3_bucket.j3_bucket.arn,
+          "${aws_s3_bucket.j3_bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}

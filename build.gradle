@@ -17,6 +17,10 @@ java {
 	}
 }
 
+ext {
+	lombokLib = 'org.projectlombok:lombok:1.18.32'
+}
+
 repositories {
 	mavenCentral()
 }
@@ -25,6 +29,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	implementation 'software.amazon.awssdk:s3:2.25.21'
+
+	compileOnly("$lombokLib")
+	annotationProcessor("$lombokLib")
+
+	testCompileOnly("$lombokLib")
+	testAnnotationProcessor("$lombokLib")
 
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

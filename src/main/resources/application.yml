@@ -11,3 +11,8 @@ management:
       base-path: /
       exposure:
         include: health,info
+
+aws:
+  region: "eu-central-1"
+  s3:
+    bucket-name: "j3-service-bucket"
