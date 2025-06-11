@@ -21,7 +21,7 @@ public class SqsService {
     public void sendMessage(String messageBody) {
         LOGGER.info("queue url ------ : " + awsProperties.getSqs().getQueueUrl());
         SendMessageRequest request = SendMessageRequest.builder()
-                .queueUrl(awsProperties.getSqs().getQueueUrl())
+                .queueUrl("https://sqs.eu-central-1.amazonaws.com/123456789012/j3-queue")
                 .messageBody(messageBody)
                 .build();
 
