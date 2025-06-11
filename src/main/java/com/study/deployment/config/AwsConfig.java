@@ -36,7 +36,7 @@ public class AwsConfig {
     public SqsClient sqsClient() {
         return SqsClient.builder()
                 .credentialsProvider(DefaultCredentialsProvider.create())
-                .endpointOverride(URI.create("https://sqs.eu-central-1.amazonaws.com/123456789012/j3-queue"))
+                .endpointOverride(URI.create("https://sqs.eu-central-1.amazonaws.com"))
                 .region(Region.of(awsProperties.getRegion()))
                 .build();
     }
