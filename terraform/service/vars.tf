@@ -2,7 +2,7 @@ data "terraform_remote_state" "infra-data" {
   backend = "s3"
   config  = {
     bucket = "j3-terraform-state"
-    key    = "j3-infra/terraform.tfstate"
+    key    = "infra/eu-central-1/${var.env}terraform.tfstate"
     region = "eu-central-1"
   }
 }
