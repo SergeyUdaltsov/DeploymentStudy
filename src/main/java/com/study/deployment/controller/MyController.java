@@ -4,6 +4,7 @@ import com.study.deployment.service.MessageProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,5 +24,10 @@ public class MyController {
         processingService.processMessage(message);
 
         return "Payload was processed successfully";
+    }
+
+    @GetMapping("/loaderio-6ea57960066f1edaecd4668433d87460.txt")
+    public String verify() {
+        return "loaderio-6ea57960066f1edaecd4668433d87460";
     }
 }

@@ -26,7 +26,7 @@ public class MessageProcessingService {
         LocalDateTime now = LocalDateTime.now();
         String fileKey = String.format("%s/%s/%s/%s", now.getYear(), now.getMonth().getValue(), now.getDayOfMonth(), Timestamp.valueOf(now));
 
-        s3Service.savePayloadToBucket(message, fileKey);
+        s3Service.saveFileToS3(message, fileKey);
         LOGGER.info("Payload successfully stored to S3");
 
         UUID metadataId = UUID.randomUUID();

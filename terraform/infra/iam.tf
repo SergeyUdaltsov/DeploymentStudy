@@ -141,7 +141,8 @@ resource "aws_iam_role_policy" "sqs_policy" {
       {
         Effect = "Allow",
         Action = [
-          "sqs:SendMessage"
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage"
         ],
         Resource = [
           aws_sqs_queue.sqs_queue.arn
