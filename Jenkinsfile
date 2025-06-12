@@ -62,7 +62,7 @@ pipeline {
                         terraform init -backend-config="key=service/eu-central-1/${params.ENV}/terraform.tfstate" -input=false -force-copy
 
                         if [ "${params.ACTION}" = "apply" ]; then
-                            terraform plan -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
+                            terraform plan -var="env=${params.ENV}" -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
                             terraform apply -var="env=${params.ENV}" -input=false -auto-approve tfplan
                         else
                             terraform destroy -var="env=${params.ENV}" -input=false -auto-approve
