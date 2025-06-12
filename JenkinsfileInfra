@@ -24,7 +24,8 @@ pipeline {
 
                         if [ "${params.ACTION}" = "apply" ]; then
                             terraform plan -var="env=${params.ENV}" -input=false -out=tfplan
-                            terraform apply -var="env=${params.ENV}" -input=false -auto-approve tfplan
+                            terraform show tfplan
+                            terraform apply tfplan
                         else
                             terraform destroy -var="env=${params.ENV}" -input=false -auto-approve
                         fi
