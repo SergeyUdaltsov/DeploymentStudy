@@ -54,6 +54,12 @@ resource "aws_ecs_task_definition" "task_definition" {
           "awslogs-stream-prefix" = "j3-study"
         }
       }
+      environment = [
+        {
+          name  = "ENV"
+          value = var.env
+        }
+      ]
     }
   ])
 }
