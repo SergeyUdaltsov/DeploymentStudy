@@ -1,17 +1,13 @@
 resource "aws_lb" "j3_alb" {
-  name               = "j3-alb"
+  name               = "j3-alb-${var.env}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = ["subnet-2fb03453", "subnet-29581143", "subnet-7047cc3c"]
-
-  tags = {
-    Name = "j3-alb"
-  }
 }
 
 resource "aws_lb_target_group" "j3_tg" {
-  name     = "j3-tg"
+  name     = "j3-tg-${var.env}"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = "vpc-9cf492f6"
@@ -26,10 +22,6 @@ resource "aws_lb_target_group" "j3_tg" {
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
-  }
-
-  tags = {
-    Name = "j3-tg"
   }
 }
 

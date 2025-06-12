@@ -12,3 +12,8 @@ variable "image_tag" {
   default = ""
   description = "Number of build"
 }
+
+variable "env" {
+  type = string
+  description = "Environment"
+}

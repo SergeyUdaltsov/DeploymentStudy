@@ -15,13 +15,8 @@ management:
 aws:
   region: "eu-central-1"
   s3:
-    bucket-name: "j3-service-bucket"
+    bucket-name: j3-service-bucket-${ENV}
   dynamoDb:
-    table-name: "j3_payloads_metadata"
+    table-name: j3_payloads_metadata-${ENV}
   sqs:
-    queue-url: "https://sqs.eu-central-1.amazonaws.com/143936507261/j3-queue"
-
-logging:
-  level:
-    software.amazon.awssdk.request: DEBUG
-    software.amazon.awssdk.response: DEBUG
+    queue-url: https://sqs.eu-central-1.amazonaws.com/143936507261/j3-queue-${ENV}

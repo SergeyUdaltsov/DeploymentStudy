@@ -1,5 +1,5 @@
 resource "aws_ecs_service" "service" {
-  name          = "J3StudyEcsService"
+  name          = "J3StudyEcsService-${var.env}"
   cluster       = data.terraform_remote_state.infra-data.outputs.cluster_name
   desired_count = 1
 
@@ -67,7 +67,7 @@ resource "aws_appautoscaling_target" "ecs_service" {
 }
 
 resource "aws_appautoscaling_policy" "ecs_service_rps_policy" {
-  name               = "J3StudyEcsService-RPS-Scaling"
+  name               = "J3StudyEcsService-RPS-Scaling-${var.env}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_service.resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_service.scalable_dimension
@@ -85,9 +85,8 @@ resource "aws_appautoscaling_policy" "ecs_service_rps_policy" {
   }
 }
 
-
 locals {
-  container_name = "j3-study-container"
+  container_name = "j3-study-container-${var.env}"
 }
 
 

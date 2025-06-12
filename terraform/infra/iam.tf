@@ -1,5 +1,5 @@
 resource "aws_iam_role" "service_role" {
-  name               = "j3-service-role"
+  name               = "j3-service-role-${var.env}"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "managed_attachment_service" {
 }
 
 resource "aws_iam_role_policy" "inline_service_policy" {
-  name = "j3-specific-policy"
+  name = "j3-specific-policy-${var.env}"
   role = aws_iam_role.service_role.name
 
   policy = jsonencode({
@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "inline_service_policy" {
 }
 
 resource "aws_iam_role" "task_role" {
-  name               = "j3-task-role"
+  name               = "j3-task-role-${var.env}"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -87,7 +87,7 @@ resource "aws_iam_role_policy_attachment" "managed_attachment_task" {
 }
 
 resource "aws_iam_role_policy" "s3_policy" {
-  name = "j3-s3-access-policy"
+  name = "j3-s3-access-policy-${var.env}"
   role = aws_iam_role.task_role.name
 
   policy = jsonencode({
@@ -111,7 +111,7 @@ resource "aws_iam_role_policy" "s3_policy" {
 }
 
 resource "aws_iam_role_policy" "dynamoDb_policy" {
-  name = "j3-dynamoDb-access-policy"
+  name = "j3-dynamoDb-access-policy-${var.env}"
   role = aws_iam_role.task_role.name
 
   policy = jsonencode({
@@ -132,7 +132,7 @@ resource "aws_iam_role_policy" "dynamoDb_policy" {
 }
 
 resource "aws_iam_role_policy" "sqs_policy" {
-  name = "j3-sqs-access-policy"
+  name = "j3-sqs-access-policy-${var.env}"
   role = aws_iam_role.task_role.name
 
   policy = jsonencode({

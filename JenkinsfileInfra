@@ -5,6 +5,7 @@ pipeline {
 
     parameters {
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action')
+        choice(name: 'ENV', choices: ['dev', 'test'], description: 'Environment to deploy')
     }
 
     stages {
@@ -14,19 +15,18 @@ pipeline {
             }
         }
 
-
         stage('Terraform Deploy') {
             steps {
                 dir('terraform/infra') {
                     sh """
                         echo "Initializing Terraform"
-                        terraform init -input=false -force-copy
+                        terraform init -backend-config="key=infra/eu-central-1/${params.ENV}/terraform.tfstate" -input=false -force-copy
 
                         if [ "${params.ACTION}" = "apply" ]; then
                             terraform plan -input=false -out=tfplan
-                            terraform apply -input=false -auto-approve tfplan
+                            terraform apply -var="env=${params.ENV}" -input=false -auto-approve tfplan
                         else
-                            terraform destroy -input=false -auto-approve
+                            terraform destroy -var="env=${params.ENV}" -input=false -auto-approve
                         fi
                     """
                 }
