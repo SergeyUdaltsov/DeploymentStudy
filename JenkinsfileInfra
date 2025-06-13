@@ -21,7 +21,7 @@ pipeline {
                 dir('terraform/infra') {
                     sh """
                         echo "Initializing Terraform"
-                        terraform init -backend-config="key=j3-infra/${params.REGION}/${params.ENV}/terraform.tfstate" -input=false -force-copy
+                        terraform init -backend-config="key=j3-infra/${params.REGION}/${params.ENV}/terraform.tfstate" -input=false
 
                         if [ "${params.ACTION}" = "apply" ]; then
                             echo "Planning Terraform apply"
