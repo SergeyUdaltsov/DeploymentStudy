@@ -1,0 +1,8 @@
+aws:
+  region: ${REGION}
+  s3:
+    bucket-name: j3-service-bucket-${REGION}-${ENV}
+  dynamoDb:
+    table-name: j3_payloads_metadata-${REGION}-${ENV}
+  sqs:
+    queue-url: https://sqs.${REGION}.amazonaws.com/143936507261/j3-queue-${REGION}-${ENV}
