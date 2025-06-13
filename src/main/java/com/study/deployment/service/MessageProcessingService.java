@@ -19,7 +19,7 @@ public class MessageProcessingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProcessingService.class);
 
-    @Value("env-dependent-value")
+    @Value("${env-dependent-value}")
     private String envDependentValue;
     private final S3Service s3Service;
     private final DynamoDbService dynamoDbService;
