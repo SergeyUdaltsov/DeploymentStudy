@@ -10,7 +10,7 @@ pipeline {
 
     environment {
         AWS_REGION = "${params.REGION}"
-        ECR_REPO = "143936507261.dkr.ecr.${params.REGION}.amazonaws.com/j3-repository-${params.ENV}"
+        ECR_REPO = "143936507261.dkr.ecr.${params.REGION}.amazonaws.com/j3-repository-${params.REGION}-${params.ENV}"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
