@@ -6,4 +6,4 @@ WORKDIR /app/
 
 COPY build/libs/*.jar app.jar
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=${ENV}","-jar","app.jar"]

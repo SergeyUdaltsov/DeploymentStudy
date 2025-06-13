@@ -20,3 +20,5 @@ aws:
     table-name: j3_payloads_metadata-${REGION}-${ENV}
   sqs:
     queue-url: https://sqs.${REGION}.amazonaws.com/143936507261/j3-queue-${REGION}-${ENV}
+
+env-dependent-value: default value
