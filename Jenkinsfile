@@ -3,13 +3,14 @@ pipeline {
     agent any
 
     parameters {
-        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action')
+        choice(name: 'REGION', choices: ['eu-central-1', 'eu-west-1'], description: 'Region to deploy')
         choice(name: 'ENV', choices: ['dev', 'test'], description: 'Environment to deploy')
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action')
     }
 
     environment {
-        AWS_REGION = 'eu-central-1'
-        ECR_REPO = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-repository-${params.ENV}"
+        AWS_REGION = "${params.REGION}"
+        ECR_REPO = "143936507261.dkr.ecr.${params.REGION}.amazonaws.com/j3-repository-${params.ENV}"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
@@ -59,11 +60,11 @@ pipeline {
                 dir('terraform/service') {
                     sh """
                         echo "Initializing Terraform"
-                        terraform init -backend-config="key=service/eu-central-1/${params.ENV}/terraform.tfstate" -input=false -force-copy
+                        terraform init -backend-config="key=j3-service/${params.REGION}/${params.ENV}/terraform.tfstate" -input=false -force-copy
 
                         if [ "${params.ACTION}" = "apply" ]; then
                             echo "Planning Terraform apply"
-                            terraform plan -var="env=${params.ENV}" -var="image_tag=${IMAGE_TAG}" -input=false -out=tfplan
+                            terraform plan -var="env=${params.ENV}" -var="image_tag=${IMAGE_TAG}" -var="region=${params.REGION}" -input=false -out=tfplan
                             terraform show tfplan
                             terraform apply tfplan
                         else

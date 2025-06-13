@@ -13,10 +13,10 @@ management:
         include: health,info
 
 aws:
-  region: "eu-central-1"
+  region: ${REGION}
   s3:
-    bucket-name: j3-service-bucket-${ENV}
+    bucket-name: j3-service-bucket-${REGION}-${ENV}
   dynamoDb:
-    table-name: j3_payloads_metadata-${ENV}
+    table-name: j3_payloads_metadata-${REGION}-${ENV}
   sqs:
-    queue-url: https://sqs.eu-central-1.amazonaws.com/143936507261/j3-queue-${ENV}
+    queue-url: https://sqs.${REGION}.amazonaws.com/143936507261/j3-queue-${REGION}-${ENV}

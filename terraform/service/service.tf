@@ -1,5 +1,5 @@
 resource "aws_ecs_service" "service" {
-  name          = "J3StudyEcsService-${var.env}"
+  name          = "J3StudyEcsService-${var.region}-${var.env}"
   cluster       = data.terraform_remote_state.infra-data.outputs.cluster_name
   desired_count = 1
 
@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name      = local.container_name
-      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-repository-${var.env}:${var.image_tag}"
+      image     = "143936507261.dkr.ecr.eu-central-1.amazonaws.com/j3-repository-${var.region}-${var.env}:${var.image_tag}"
       essential = true
       portMappings = [
         {
@@ -58,6 +58,10 @@ resource "aws_ecs_task_definition" "task_definition" {
         {
           name  = "ENV"
           value = var.env
+        },
+        {
+          name  = "REGION"
+          value = var.region
         }
       ]
     }
@@ -73,7 +77,7 @@ resource "aws_appautoscaling_target" "ecs_service" {
 }
 
 resource "aws_appautoscaling_policy" "ecs_service_rps_policy" {
-  name               = "J3StudyEcsService-RPS-Scaling-${var.env}"
+  name               = "J3StudyEcsService-RPS-Scaling-${var.region}-${var.env}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_service.resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_service.scalable_dimension
@@ -92,7 +96,7 @@ resource "aws_appautoscaling_policy" "ecs_service_rps_policy" {
 }
 
 locals {
-  container_name = "j3-study-container-${var.env}"
+  container_name = "j3-study-container-${var.region}-${var.env}"
 }
 
 

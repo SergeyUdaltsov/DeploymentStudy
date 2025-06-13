@@ -1,5 +1,5 @@
 resource "aws_lb" "j3_alb" {
-  name               = "j3-alb-${var.env}"
+  name               = "j3-alb-${var.region}-${var.env}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
@@ -7,7 +7,7 @@ resource "aws_lb" "j3_alb" {
 }
 
 resource "aws_lb_target_group" "j3_tg" {
-  name     = "j3-tg-${var.env}"
+  name     = "j3-tg-${var.region}-${var.env}"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = "vpc-9cf492f6"
