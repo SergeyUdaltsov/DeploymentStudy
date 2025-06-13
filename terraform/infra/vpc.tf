@@ -1,7 +1,7 @@
 resource "aws_security_group" "alb_sg" {
   name        = "j3-alb-sg-${var.region}-${var.env}"
   description = "Allow HTTP traffic to ALB"
-  vpc_id      = "vpc-9cf492f6"
+  vpc_id      = var.vpcId
 
   ingress {
     description = "Allow HTTP from anywhere"
@@ -22,7 +22,7 @@ resource "aws_security_group" "alb_sg" {
 resource "aws_security_group" "ecs_service_sg" {
   name        = "j3-ecs-service-sg-${var.region}-${var.env}"
   description = "Allow traffic from ALB to ECS tasks"
-  vpc_id      = "vpc-9cf492f6"
+  vpc_id      = var.vpcId
 
   ingress {
     description = "Allow traffic from ALB"

@@ -29,3 +29,7 @@ output "alb_arn_suffix" {
 output "service_sg_id" {
   value = aws_security_group.ecs_service_sg.id
 }
+
+output "subnets" {
+  value = var.subnets
+}

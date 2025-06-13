@@ -3,14 +3,14 @@ resource "aws_lb" "j3_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = ["subnet-2fb03453", "subnet-29581143", "subnet-7047cc3c"]
+  subnets            = var.subnets
 }
 
 resource "aws_lb_target_group" "j3_tg" {
   name     = "j3-tg-${var.region}-${var.env}"
   port     = 8080
   protocol = "HTTP"
-  vpc_id   = "vpc-9cf492f6"
+  vpc_id   = var.vpcId
   target_type = "ip"
 
   health_check {
