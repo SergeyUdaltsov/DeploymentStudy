@@ -68,7 +68,7 @@ pipeline {
                             terraform apply tfplan
                         else
                             echo "Planning Terraform destroy"
-                            terraform destroy -var="env=${params.ENV}" -input=false -out=tfplan
+                            terraform plan -destroy -var="env=${params.ENV}" -input=false -out=tfplan
                             terraform show tfplan
                             terraform apply tfplan
                         fi
